@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BEM 2027 - رفيقك النجاح مع جمانة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#ec4899',
+                        darkBg: '#0f172a',
+                        cardBg: '#1e293b'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Cairo', sans-serif; }
+        .glass-panel { background: rgba(30, 41, 59, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        .floating { animation: float 3s ease-in-out infinite; }
+        @keyframes pulse-slow { 0%, 100% { transform: scale(1); opacity: 0.9; } 50% { transform: scale(1.15); opacity: 1; } }
+        .breathing-circle { animation: pulse-slow 8s infinite ease-in-out; }
+    </style>
+</head>
+<body class="bg-darkBg text-slate-100 min-h-screen flex flex-col selection:bg-pink-500 selection:text-white">
+
+    <!-- نافذة التنبيهات العامة -->
+    <div id="customAlert" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden">
+        <div class="glass-panel p-6 rounded-2xl max-w-sm w-full mx-4 text-center border border-pink-500/30 shadow-2xl">
+            <div class="w-16 h-16 bg-pink-500/20 text-pink-400 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fa-solid fa-heart"></i>
+            </div>
+            <h3 id="alertTitle" class="text-xl font-bold mb-2 text-white">جمانة تقول:</h3>
+            <p id="alertMessage" class="text-slate-300 text-sm mb-6"></p>
+            <button onclick="closeAlert()" class="w-full py-2.5 bg-gradient-to-r from-pink-500 to-indigo-600 rounded-xl font-bold text-white shadow-lg hover:opacity-90 transition">حسناً، فهمت</button>
+        </div>
+    </div>
+
+    <!-- رأس الصفحة -->
+    <header class="glass-panel sticky top-0 z-40 px-4 py-3 border-b border-slate-800">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3 space-x-reverse cursor-pointer" onclick="switchTab('welcome')">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-pink-500 to-indigo-500 flex items-center justify-center text-white shadow-md">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h1 class="font-black text-lg bg-gradient-to-r from-pink-400 to-indigo-400 bg-clip-text text-transparent">BEM 2027</h1>
+                    <p class="text-xs text-slate-400">بإشراف المساعدة جمانة 🌸</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2 space-x-reverse bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700">
+                <i class="fa-solid fa-gem text-pink-400"></i>
+                <span id="globalNuts" class="font-bold text-sm text-pink-300">0</span>
+                <span class="text-xs text-slate-400">جوزة</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="flex-grow max-w-4xl w-full mx-auto p-4 pb-28">
+
+        <!-- 1. صفحة الترحيب -->
+        <section id="tab-welcome" class="space-y-6 pt-6">
+            <div class="glass-panel p-8 rounded-3xl text-center relative overflow-hidden shadow-2xl border-indigo-500/20">
+                <div class="absolute -right-10 -top-10 w-40 h-40 bg-pink-500/10 rounded-full blur-3xl"></div>
+                <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl"></div>
+                
+                <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-tr from-pink-500 to-indigo-500 p-1 shadow-xl floating">
+                    <div class="w-full h-full bg-slate-900 rounded-full flex items-center justify-center overflow-hidden">
+                        <i class="fa-solid fa-robot text-4xl text-pink-400"></i>
+                    </div>
+                </div>
+
+                <h2 class="text-3xl font-black mb-3 text-white">أهلاً بك في عالم BEM 2027!</h2>
+                <p class="text-slate-300 max-w-md mx-auto mb-6 text-sm">أنا <span class="text-pink-400 font-bold">جمانة</span>، رفيقتك الذكية نحو معدل الامتياز في شهادة التعليم المتوسط. لنبدأ رحلتنا معاً!</p>
+
+                <div class="max-w-sm mx-auto space-y-3">
+                    <input type="text" id="studentNameInput" placeholder="اكتب اسمك الكريم هنا..." class="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-slate-700 text-center text-white focus:outline-none focus:border-pink-500 transition">
+                    <button onclick="saveStudentName()" class="w-full py-3 bg-gradient-to-r from-pink-500 to-indigo-600 rounded-xl font-bold shadow-lg hover:opacity-90 transition text-white">ابدأ الرحلة مع جمانة ✨</button>
+                </div>
+            </div>
+
+            <div id="welcomeBackCard" class="glass-panel p-6 rounded-2xl hidden text-center">
+                <h3 class="text-xl font-bold text-pink-400 mb-2">مرحباً مجدداً يا بطل/بطلة! 👋</h3>
+                <p id="personalizedGreeting" class="text-slate-300 text-sm mb-4"></p>
+                <button onclick="switchTab('ai')" class="px-6 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-sm font-bold transition">تحدث مع جمانة الآن</button>
+            </div>
+        </section>
+
+        <!-- 2. صفحة جمانة المساعدة الذكية -->
+        <section id="tab-ai" class="space-y-4 hidden pt-4">
+            <div class="glass-panel p-4 rounded-2xl flex items-center justify-between border-indigo-500/20">
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    <div class="w-12 h-12 rounded-full bg-pink-500/20 border border-pink-500/40 flex items-center justify-center text-pink-400 text-xl floating">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white">جمانة الذكية 🌸</h3>
+                        <p class="text-xs text-emerald-400 flex items-center"><span class="w-2 h-2 rounded-full bg-emerald-400 inline-block ml-1"></span> جاهزة لمساعدتك في أي وقت</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="chatContainer" class="glass-panel p-4 rounded-2xl h-[400px] overflow-y-auto space-y-4 flex flex-col border-slate-800">
+                <div class="flex items-start space-x-2 space-x-reverse max-w-[85%]">
+                    <div class="w-8 h-8 rounded-full bg-pink-500/20 flex items-center justify-center text-pink-400 flex-shrink-0 text-xs">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="bg-slate-800 p-3.5 rounded-2xl rounded-tr-none text-sm text-slate-200 border border-slate-700">
+                        مرحباً! أنا جمانة، اسألني عن أي شيء تخص الرياضيات، تنظيم الوقت، أو نصائح لدراسة BEM وسأجيبك فوراً! 💡
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex space-x-2 space-x-reverse">
+                <input type="text" id="chatInput" placeholder="اكتب سؤالك لجمانة هنا..." onkeypress="if(event.key === 'Enter') sendToGemini()" class="flex-grow px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-pink-500 transition">
+                <button onclick="sendToGemini()" class="px-5 py-3 bg-gradient-to-r from-pink-500 to-indigo-600 rounded-xl text-white font-bold hover:opacity-90 transition flex items-center justify-center">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- 3. صفحة مؤقت بومودورو -->
+        <section id="tab-pomodoro" class="space-y-6 hidden pt-4 text-center">
+            <div class="glass-panel p-8 rounded-3xl max-w-md mx-auto relative overflow-hidden border-indigo-500/20">
+                <h3 class="font-bold text-xl text-white mb-2">مؤقت بومودورو الدراسي ⏱️</h3>
+                <p class="text-xs text-slate-400 mb-6">25 دقيقة تركيز = 10 جوزات | 5 دقائق راحة = 5 جوزات</p>
+
+                <div class="w-52 h-52 mx-auto rounded-full border-4 border-pink-500/30 flex items-center justify-center relative mb-6 shadow-xl bg-slate-900/40">
+                    <div id="pomodoroTimerDisplay" class="text-4xl font-black text-white tracking-widest">25:00</div>
+                    <div id="pomodoroModeLabel" class="absolute bottom-10 text-xs text-pink-400 font-bold uppercase tracking-wider">وقت التركيز</div>
+                </div>
+
+                <div class="flex justify-center space-x-3 space-x-reverse">
+                    <button id="pomodoroStartBtn" onclick="togglePomodoro()" class="px-6 py-3 bg-pink-500 hover:bg-pink-600 rounded-xl font-bold text-white shadow-lg transition">بدء</button>
+                    <button onclick="resetPomodoro()" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-slate-300 border border-slate-700 transition">إعادة ضبط</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. صفحة التحفيزات -->
+        <section id="tab-motivation" class="space-y-6 hidden pt-4">
+            <div class="glass-panel p-8 rounded-3xl text-center relative overflow-hidden border-pink-500/20">
+                <div class="w-16 h-16 bg-pink-500/20 text-pink-400 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl floating">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-4">جرعة تحفيز يومية من جمانة ⚡</h3>
+                <div id="quoteBox" class="bg-slate-900/60 p-6 rounded-2xl border border-slate-800 mb-6 text-slate-200 text-base leading-relaxed italic">
+                    "حلم البيام ليس مستحيلاً، بل هو خطوة بسيطة يومية نحو مستقبلك الرائع!"
+                </div>
+                <button onclick="generateNewQuote()" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-indigo-600 rounded-xl text-white font-bold shadow-lg hover:opacity-90 transition">تحفيز جديد ✨</button>
+            </div>
+        </section>
+
+        <!-- 5. صفحة محدد المستوى والطموح -->
+        <section id="tab-level" class="space-y-6 hidden pt-4">
+            <div class="glass-panel p-6 rounded-3xl space-y-4 border-indigo-500/20">
+                <div class="text-center">
+                    <h3 class="text-xl font-bold text-white mb-1">محدد المستوى والطموح 🎯</h3>
+                    <p class="text-xs text-slate-400">دع جمانة تحلل وضعك وتعطيك نصائح مخصصة لشهادة التعليم المتوسط.</p>
+                </div>
+
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs text-slate-300 mb-1">المعدل الفصلي الحالي (من 20):</label>
+                        <input type="number" id="currentAvg" step="0.1" max="20" min="0" placeholder="مثال: 13.5" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-pink-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-300 mb-1">المعدل المستهدف في البيام (من 20):</label>
+                        <input type="number" id="targetAvg" step="0.1" max="20" min="0" placeholder="مثال: 17.0" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-pink-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-300 mb-1">طموحك المستقبلي:</label>
+                        <input type="text" id="ambitionGoal" placeholder="مثال: أن أصبح طبيباً أو مهندساً..." class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-pink-500">
+                    </div>
+                    <button onclick="analyzeLevel()" class="w-full py-3 bg-gradient-to-r from-pink-500 to-indigo-600 rounded-xl font-bold text-white shadow-lg hover:opacity-90 transition">حلل مستواي يا جمانة 🌸</button>
+                </div>
+
+                <div id="analysisResult" class="hidden bg-slate-900/80 p-5 rounded-2xl border border-slate-800 text-sm text-slate-200 space-y-2">
+                    <h4 class="font-bold text-pink-400 text-base mb-2">تحليلك ونصائح جمانة:</h4>
+                    <p id="analysisText"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. صفحة نفسيتك -->
+        <section id="tab-mood" class="space-y-6 hidden pt-4">
+            <div class="glass-panel p-6 rounded-3xl space-y-5 border-pink-500/20 max-w-lg mx-auto">
+                <div class="text-center">
+                    <div class="w-14 h-14 bg-pink-500/20 text-pink-400 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl floating">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1">ركن نفسيتك مع جمانة 🧠🌸</h3>
+                    <p class="text-xs text-slate-400">أخبرني كيف تشعر الآن، لكي تتلقى النصيحة والدعم النفسي المناسب لمراجعتك.</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs text-slate-300 mb-2">1. كيف تشعر في هذه اللحظة؟</label>
+                        <select id="moodFeel" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-pink-500">
+                            <option value="happy">مرتاح ومتحمس للدراسة 😊</option>
+                            <option value="stressed">متوتر وقلق من ضغط البيام 😰</option>
+                            <option value="tired">متعب وأشعر بالإرهاق الجسدي والعقلي 😴</option>
+                            <option value="lost">مشوش ولا أدري من أين أبدأ المراجعة 🌪️</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-slate-300 mb-2">2. هل أنت جالس للدراسة الآن حقاً؟</label>
+                        <select id="moodStudy" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-pink-500">
+                            <option value="yes">نعم، أمام طاولتي ومستعد 📚</option>
+                            <option value="trying">أحاول لكنني أتشتت بسرعة 📱</option>
+                            <option value="no">لا، مستلق وأفكر فقط 🛌</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-slate-300 mb-2">3. ما هو أكثر شيء يزعجك حالياً؟</label>
+                        <input type="text" id="moodTrouble" placeholder="مثال: الخوف من الرياضيات، ضيق الوقت..." class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-pink-500">
+                    </div>
+
+                    <button onclick="analyzeMood()" class="w-full py-3 bg-gradient-to-r from-pink-500 to-indigo-600 rounded-xl font-bold text-white shadow-lg hover:opacity-90 transition">احصل على تشخيص ونصيحة جمانة 🌸</button>
+                </div>
+
+                <div id="moodResultBox" class="hidden bg-slate-900/90 p-5 rounded-2xl border border-slate-800 text-sm text-slate-200 space-y-3">
+                    <h4 class="font-bold text-pink-400 text-base">رسالة جمانة لروحك:</h4>
+                    <p id="moodAdviceText" class="leading-relaxed"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. صفحة عملية التنفس -->
+        <section id="tab-breathing" class="space-y-6 hidden pt-4 text-center">
+            <div class="glass-panel p-8 rounded-3xl max-w-md mx-auto relative overflow-hidden border-indigo-500/20">
+                <h3 class="font-bold text-xl text-white mb-1">استرخاء مع جمانة 🍃</h3>
+                <p id="breathInstruction" class="text-xs text-pink-400 mb-8 font-semibold">استعد لتنظيم تنفسك وتفريغ توتر الدراسة...</p>
+
+                <div class="w-48 h-48 mx-auto rounded-full bg-gradient-to-tr from-pink-500/30 to-indigo-500/30 border-2 border-pink-400/50 flex items-center justify-center relative mb-8 breathing-circle shadow-2xl">
+                    <div class="w-36 h-36 rounded-full bg-slate-900 flex items-center justify-center text-center p-4">
+                        <span id="breathText" class="text-sm font-bold text-slate-200">اضغط ابدأ للاسترخاء</span>
+                    </div>
+                </div>
+
+                <button onclick="startBreathingExercise()" id="breathBtn" class="px-6 py-3 bg-pink-500 hover:bg-pink-600 rounded-xl font-bold text-white shadow-lg transition">ابدأ التمرين 🌬️</button>
+            </div>
+        </section>
+
+        <!-- 8. صفحة قائمة المهام (Todo List) -->
+        <section id="tab-todo" class="space-y-6 hidden pt-4">
+            <div class="glass-panel p-6 rounded-3xl space-y-4 border-indigo-500/20">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-xl font-bold text-white">مهامي اليومية للبيام ✅</h3>
+                        <p class="text-xs text-slate-400">أتمم مهمة واكتب "تم" لتحصل على 10 جوزات!</p>
+                    </div>
+                </div>
+
+                <div class="flex space-x-2 space-x-reverse">
+                    <input type="text" id="todoInput" placeholder="أضف مهمة دراسية جديدة..." class="flex-grow px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-pink-500">
+                    <button onclick="addTodoItem()" class="px-5 py-2.5 bg-pink-500 hover:bg-pink-600 rounded-xl font-bold text-white transition text-sm">إضافة</button>
+                </div>
+
+                <div id="todoListContainer" class="space-y-2.5 max-h-[300px] overflow-y-auto">
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. صفحة المذكرة الخاصة -->
+        <section id="tab-notes" class="space-y-6 hidden pt-4">
+            <div id="noteLockScreen" class="glass-panel p-8 rounded-3xl text-center space-y-4 max-w-sm mx-auto border-indigo-500/20">
+                <div class="w-16 h-16 bg-pink-500/20 text-pink-400 rounded-full flex items-center justify-center mx-auto text-xl">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white">المذكرة السرية الخاصة 🔐</h3>
+                <p class="text-xs text-slate-400">أدخل رقمك السري (أو أنشئ واحداً جديداً) للوصول لأسرارك وطموحاتك.</p>
+                <input type="password" id="notePinInput" placeholder="أدخل الرقم السري..." class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-center text-white tracking-widest text-lg focus:outline-none focus:border-pink-500">
+                <button onclick="accessNotes()" class="w-full py-3 bg-gradient-to-r from-pink-500 to-indigo-600 rounded-xl font-bold text-white shadow-lg transition">فتح المذكرة</button>
+            </div>
+
+            <div id="noteContentScreen" class="glass-panel p-6 rounded-3xl space-y-4 hidden border-indigo-500/20">
+            
